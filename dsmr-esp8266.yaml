@@ -1,0 +1,101 @@
+esphome:
+  name: dsmr-esp8266
+#  includes:
+#    - dsmr_p1_uart_8266.h
+  libraries:
+    - "Dsmr"
+
+esp8266:
+  board: nodemcuv2
+
+
+
+wifi:
+  ssid: !secret ssid
+  password: !secret wifipassword
+  
+  domain: ".local"
+  
+  manual_ip:
+    static_ip: <<choose an IP address within range>>
+    gateway: <<<your gateway>>>
+    subnet: <<subnet>>>>
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "dsmr Fallback Hotspot"
+    password: <<password>>
+
+captive_portal:
+
+# Enable Home Assistant API
+api:
+  #password: !secret esphome_api
+  encryption:
+    key: <<generate a key on the HA website>>
+  
+ota:
+  password: <<password>>
+
+
+#switch:
+#  - platform: restart
+#    name: "dsmr_restart"
+#    id: restart_switch
+
+logger: #  serial logging must be disabled to keep the hardware UART available for D7
+  baud_rate: 0
+  level: DEBUG
+
+uart:
+#  - rx_pin: GPIO14 #D2
+#  - rx_pin: D7
+- rx_pin: GPIO13
+  baud_rate: 115200
+  id: uart_bus  
+  rx_buffer_size: 1700
+
+
+dsmr:    
+  max_telegram_length: 1700
+  receive_timeout: 500ms
+  request_interval: 600ms
+
+sensor:
+  - platform: dsmr
+    energy_delivered_tariff1:
+      name: Energy Consumed Tariff 1
+
+    energy_delivered_tariff2:
+      name: Energy Consumed Tariff 2
+
+    power_delivered:
+      name: power_delivered
+      unit_of_measurement: kW
+      accuracy_decimals: 3
+   
+    voltage_l1:
+      name: Voltage L1
+      unit_of_measurement: V
+      accuracy_decimals: 1
+    
+    current_l1:
+      name: Current L1
+      unit_of_measurement: A
+      accuracy_decimals: 2
+    
+    gas_delivered_be:
+      name: Gas Consumed
+      #unit_of_measurement: A
+      accuracy_decimals: 3
+      
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 30s
+
+text_sensor:
+  - platform: dsmr
+    identification:
+      name: "DSMR Identification"
+    p1_version_be:
+      name: "DSMR Version"
