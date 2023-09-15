@@ -19,6 +19,10 @@ I used a NodeMCU ESP8266 to connect to the P1 port.
 You need some kind of [hardware inverter]. i used a 7404 chip: SN74HC04N (https://en.wikipedia.org/wiki/Inverter_(logic_gate)) because the UART component doesn't support inverting the signal with a software setting.
 I read that the ESP32 does have this inverter function, but ESP32 doesn't like my espHome setup for some reason.
 
+I drew my pcb with easyEDA and ordered it from the attached company JLCPCB. Project files are here: [oshwlab.com](https://oshwlab.com/ritchieh83/dsrm)
+
+The case was 3D printed. you can find the files in the folder 'Casing'.
+
 The board is powered by the smart meter, so no external powersuply is needed.
 
 ## Schema
