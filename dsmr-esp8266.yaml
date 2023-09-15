@@ -11,8 +11,8 @@ esp8266:
 
 
 wifi:
-  ssid: !secret ssid
-  password: !secret wifipassword
+  ssid: <<ssid>>
+  password: <<password>>
   
   domain: ".local"
   
